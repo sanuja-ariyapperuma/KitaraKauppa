@@ -1,0 +1,110 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Repositories\Carts\**" />
+    <Compile Remove="Repositories\Categories\**" />
+    <Compile Remove="Repositories\Colors\**" />
+    <Compile Remove="Repositories\ProductReviews\**" />
+    <Content Remove="Repositories\Carts\**" />
+    <Content Remove="Repositories\Categories\**" />
+    <Content Remove="Repositories\Colors\**" />
+    <Content Remove="Repositories\ProductReviews\**" />
+    <EmbeddedResource Remove="Repositories\Carts\**" />
+    <EmbeddedResource Remove="Repositories\Categories\**" />
+    <EmbeddedResource Remove="Repositories\Colors\**" />
+    <EmbeddedResource Remove="Repositories\ProductReviews\**" />
+    <None Remove="Repositories\Carts\**" />
+    <None Remove="Repositories\Categories\**" />
+    <None Remove="Repositories\Colors\**" />
+    <None Remove="Repositories\ProductReviews\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Database\AddressDetail.cs" />
+    <Compile Remove="Database\City.cs" />
+    <Compile Remove="Database\User.cs" />
+    <Compile Remove="Database\UserAddress.cs" />
+    <Compile Remove="Database\UserContactNumber.cs" />
+    <Compile Remove="Database\UserCredential.cs" />
+    <Compile Remove="Database\UserRole.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ProductImages\1cd4d993-8982-45c1-81c0-90e7ddb349f4.jpg" />
+    <None Remove="ProductImages\2d0793ed-f255-4648-bd9e-e0404aacde40.png" />
+    <None Remove="ProductImages\4977a0a0-3ff4-4798-8be4-46613f1e0a8b.png" />
+    <None Remove="ProductImages\571d1ee8-312b-47c2-9f35-dcc88c6b5e65.webp" />
+    <None Remove="ProductImages\786388ed-0df4-475a-8b19-fa4f1afd82c4.avif" />
+    <None Remove="ProductImages\786388ed-0df4-475a-8b19-fa4f1afd82c4.jpg" />
+    <None Remove="ProductImages\82d9cdf7-c4a1-4f98-85c9-ac6ea297f62d.webp" />
+    <None Remove="ProductImages\94cd20bf-61e3-4af8-a78e-9cc23e3110f3.jpg" />
+    <None Remove="ProductImages\a8c19e1f-4681-41c3-ba7d-fdfe9b68396c.jpeg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="ProductImages\1cd4d993-8982-45c1-81c0-90e7ddb349f4.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductImages\2d0793ed-f255-4648-bd9e-e0404aacde40.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductImages\4977a0a0-3ff4-4798-8be4-46613f1e0a8b.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductImages\571d1ee8-312b-47c2-9f35-dcc88c6b5e65.webp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductImages\786388ed-0df4-475a-8b19-fa4f1afd82c4.avif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductImages\786388ed-0df4-475a-8b19-fa4f1afd82c4.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductImages\82d9cdf7-c4a1-4f98-85c9-ac6ea297f62d.webp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductImages\94cd20bf-61e3-4af8-a78e-9cc23e3110f3.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductImages\a8c19e1f-4681-41c3-ba7d-fdfe9b68396c.jpeg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityFrameworkCore.NamingConventions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\KitaraKauppa.Core\KitaraKauppa.Core.csproj" />
+    <ProjectReference Include="..\KitaraKauppa.Presentation\KitaraKauppa.Presentation.csproj" />
+    <ProjectReference Include="..\KitaraKauppa.Service\KitaraKauppa.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="logs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ProductImages\IMG_1068.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
