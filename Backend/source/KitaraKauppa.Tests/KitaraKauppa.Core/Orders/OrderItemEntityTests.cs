@@ -1,5 +1,6 @@
 using KitaraKauppa.Core.Orders;
 using KitaraKauppa.Core.Products;
+using KitaraKauppa.Core.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,17 +28,19 @@ namespace KitaraKauppa.Tests.KitaraKauppa.Core.Orders
             var type = typeof(OrderItem);
 
             // Act
-            var orderItemsId = type.GetProperty("OrderItemsId");
             var orderId = type.GetProperty("OrderId");
             var productId = type.GetProperty("ProductId");
-            var quantity = type.GetProperty("Quantity");
+            var colorId = type.GetProperty("ColorId");
+            var oriantation = type.GetProperty("Orientation");
+            var units = type.GetProperty("Units");
             var price = type.GetProperty("Price");
-            var createdAt = type.GetProperty("CreatedAt");
+            var color = type.GetProperty("Color");
             var order = type.GetProperty("Order");
+            var product = type.GetProperty("Product");
 
             // Assert
-            Assert.NotNull(orderItemsId);
-            Assert.Equal(typeof(Guid),orderItemsId.PropertyType);
+            Assert.NotNull(colorId);
+            Assert.Equal(typeof(Guid), colorId.PropertyType);
 
             Assert.NotNull(orderId);
             Assert.Equal(typeof(Guid),orderId.PropertyType);
@@ -45,17 +48,24 @@ namespace KitaraKauppa.Tests.KitaraKauppa.Core.Orders
             Assert.NotNull(productId);
             Assert.Equal(typeof(Guid),productId.PropertyType);
 
-            Assert.NotNull(quantity);
-            Assert.Equal(typeof(int?),quantity.PropertyType);
+            Assert.NotNull(oriantation);
+            Assert.Equal(typeof(Orientation), oriantation.PropertyType);
 
             Assert.NotNull(price);
-            Assert.Equal(typeof(decimal?),price.PropertyType);
+            Assert.Equal(typeof(decimal),price.PropertyType);
 
-            Assert.NotNull(createdAt);
-            Assert.Equal(typeof(DateTime?),createdAt.PropertyType);
+            Assert.NotNull(units);
+            Assert.Equal(typeof(int), units.PropertyType);
 
             Assert.NotNull(order);
             Assert.Equal(typeof(Order),order.PropertyType);
+
+            Assert.NotNull(product);
+            Assert.Equal(typeof(Product), product.PropertyType);
+
+            Assert.NotNull(color);
+            Assert.Equal(typeof(Color), color.PropertyType);
+
         }
     }
 }

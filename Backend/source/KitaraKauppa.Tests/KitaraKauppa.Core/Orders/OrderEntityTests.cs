@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KitaraKauppa.Core.Shared;
 
 namespace KitaraKauppa.Tests.KitaraKauppa.Core.Orders
 {
@@ -29,36 +30,36 @@ namespace KitaraKauppa.Tests.KitaraKauppa.Core.Orders
             var type = typeof(Order);
 
             // Act
-            var orderId = type.GetProperty("OrderId");
             var userId = type.GetProperty("UserId");
             var addressId = type.GetProperty("AddressId");
             var totalAmount = type.GetProperty("TotalAmount");
-            var createdAt = type.GetProperty("CreatedAt");
+            var orderStatus = type.GetProperty("OrderStatus");
+            var address = type.GetProperty("Address");
             var orderItems = type.GetProperty("OrderItems");
-            var productReviews = type.GetProperty("ProductReviews");
+            var users = type.GetProperty("User");
 
 
             // Assert
             Assert.NotNull(userId);
             Assert.Equal(typeof(Guid),userId.PropertyType);
 
-            Assert.NotNull(orderId);
-            // Assert.Equal(typeof(Guid),orderId.PropertyType);
+            Assert.NotNull(orderStatus);
+            Assert.Equal(typeof(OrderStatus), orderStatus.PropertyType);
 
             Assert.NotNull(addressId);
-            // Assert.Equal(typeof(Guid),addressId.PropertyType);
+            Assert.Equal(typeof(Guid?),addressId.PropertyType);
 
             Assert.NotNull(totalAmount);
             Assert.Equal(typeof(decimal?),totalAmount.PropertyType);
 
-            Assert.NotNull(createdAt);
-            Assert.Equal(typeof(DateTime?),createdAt.PropertyType);
+            Assert.NotNull(address);
+            Assert.Equal(typeof(UserAddress), address.PropertyType);
             
             Assert.NotNull(orderItems);
             Assert.Equal(typeof(ICollection<OrderItem>),orderItems.PropertyType);
             
-            Assert.NotNull(productReviews);
-            Assert.Equal(typeof(ICollection<ProductReview>),productReviews.PropertyType);
+            Assert.NotNull(users);
+            Assert.Equal(typeof(User), users.PropertyType);
         }
     }
 }
