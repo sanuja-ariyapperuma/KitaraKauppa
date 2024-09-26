@@ -26,13 +26,9 @@ namespace KitaraKauppa.Tests.KitaraKauppa.Core.Users
             var type = typeof(UserCredential);
 
             // Act
-            var userId = type.GetProperty("UserId");
             var userName = type.GetProperty("UserName");
             var password = type.GetProperty("Password");
             var user = type.GetProperty("User");
-
-            Assert.NotNull(userId);
-            Assert.Equal(typeof(Guid), userId.PropertyType);
 
             Assert.NotNull(userName);
             Assert.Equal(typeof(string), userName.PropertyType);

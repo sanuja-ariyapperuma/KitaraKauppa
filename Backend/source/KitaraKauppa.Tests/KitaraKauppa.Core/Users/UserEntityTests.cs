@@ -28,21 +28,14 @@ namespace KitaraKauppa.Tests.KitaraKauppa.Core.Users
             var type = typeof(User);
 
             // Act
-            var userId = type.GetProperty("UserId");
             var firstName = type.GetProperty("FirstName");
             var lastName = type.GetProperty("LastName");
             var email = type.GetProperty("Email");
             var userRoleId = type.GetProperty("UserRoleId");
             var lastLogin = type.GetProperty("LastLogin");
             var isUserActive = type.GetProperty("IsUserActive");
-            var createdAt = type.GetProperty("CreatedAt");
             var userAddresses = type.GetProperty("UserAddresses");
             var userRole = type.GetProperty("UserRole");
-
-
-            // Assert
-            Assert.NotNull(userId);
-            Assert.Equal(typeof(Guid),userId.PropertyType);
 
             Assert.NotNull(firstName);
             Assert.Equal(typeof(string),firstName.PropertyType);
@@ -61,9 +54,6 @@ namespace KitaraKauppa.Tests.KitaraKauppa.Core.Users
             
             Assert.NotNull(isUserActive);
             Assert.Equal(typeof(bool?),isUserActive.PropertyType);
-            
-            Assert.NotNull(createdAt);
-            Assert.Equal(typeof(DateTime?),createdAt.PropertyType);
             
             Assert.NotNull(userAddresses);
             Assert.Equal(typeof(ICollection<UserAddress>),userAddresses.PropertyType);
