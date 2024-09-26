@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using Xunit;
 
 using KitaraKauppa.Core.Products;
+using KitaraKauppa.Core.Shared;
+using System.ComponentModel.DataAnnotations;
 
 namespace KitaraKauppa.Tests.KitaraKauppa.Core.Products
 {
     public class ProductTests
     {
         [Fact]
-        public void ProductClass_ShouldExists()
+        public void ProductEntity_ShouldExist()
         {
             // Act
             var classType = Type.GetType("KitaraKauppa.Core.Products.Product, KitaraKauppa.Core");
@@ -19,90 +21,128 @@ namespace KitaraKauppa.Tests.KitaraKauppa.Core.Products
         }
 
         [Fact]
-        public void Product_ShouldHaveValidProductId()
+        public void Product_ShouldHaveValidProperties()
         {
-            //Arrange
-            var product = typeof(Product);
+            // Arrange
+            var type = typeof(Product);
 
-            // Act
-            var productId = product.GetProperty("ProductId");
+            // Act and Assert each property
+            var title = type.GetProperty("Title");
+            var description = type.GetProperty("Description");
+            var unitPrice = type.GetProperty("UnitPrice");
+            var varientType = type.GetProperty("VarientType");
+            var orientation = type.GetProperty("Orientation");
+            var brandId = type.GetProperty("BrandId");
+            var brand = type.GetProperty("Brand");
+            var images = type.GetProperty("Images");
+            var colors = type.GetProperty("Colors");
 
-            // Assert
-            Assert.NotNull(productId);
-            Assert.Equal(typeof(Guid), productId.PropertyType);
-        }
-
-        [Fact]
-        public void Product_ShouldHaveValidTitle()
-        {
-            //Arrange
-            var product = typeof(Product);
-
-            // Act
-            var title = product.GetProperty("Title");
-
-
-            // Assert
             Assert.NotNull(title);
             Assert.Equal(typeof(string), title.PropertyType);
 
-
-        }
-
-        [Fact]
-        public void Product_ShouldHaveValidDescription()
-        {
-            //Arrange
-            var product = typeof(Product);
-
-            // Act
-            var description = product.GetProperty("Description");
-
-            // Assert
             Assert.NotNull(description);
             Assert.Equal(typeof(string), description.PropertyType);
-        }
 
-        [Fact]
-        public void Product_ShouldHaveValidImages()
-        {
-            //Arrange
-            var product = typeof(Product);
+            Assert.NotNull(unitPrice);
+            Assert.Equal(typeof(decimal), unitPrice.PropertyType);
 
-            // Act
-            var images = product.GetProperty("Images");
+            Assert.NotNull(varientType);
+            Assert.Equal(typeof(VarientType), varientType.PropertyType);
 
-            // Assert
+            Assert.NotNull(orientation);
+            Assert.Equal(typeof(Orientation), orientation.PropertyType);
+
+            Assert.NotNull(brandId);
+            Assert.Equal(typeof(Guid), brandId.PropertyType);
+
+            Assert.NotNull(brand);
+            Assert.Equal(typeof(Brand), brand.PropertyType);
+
             Assert.NotNull(images);
             Assert.Equal(typeof(ICollection<Image>), images.PropertyType);
+
+            Assert.NotNull(colors);
+            Assert.Equal(typeof(ICollection<Color>), colors.PropertyType);
         }
 
         [Fact]
-        public void Product_ShouldHaveValidVariations()
+        public void Product_Title_ShouldHaveMinLengthValidation()
         {
-            //Arrange
-            var product = typeof(Product);
+            // Arrange
+            var property = typeof(Product).GetProperty("Title");
 
             // Act
-            var variations = product.GetProperty("Variations");
+            var minLengthAttribute = property.GetCustomAttributes(typeof(MinLengthAttribute), true)[0] as MinLengthAttribute;
 
             // Assert
-            Assert.NotNull(variations);
-            Assert.Equal(typeof(ICollection<Variation>), variations.PropertyType);
+            Assert.NotNull(minLengthAttribute);
+            Assert.Equal(3, minLengthAttribute.Length);
         }
 
         [Fact]
-        public void Product_ShouldHaveValidProductCategories()
+        public void Product_Title_ShouldHaveMaxLengthValidation()
         {
-            //Arrange
-            var product = typeof(Product);
+            // Arrange
+            var property = typeof(Product).GetProperty("Title");
 
             // Act
-            var productCategories = product.GetProperty("ProductCategories");
+            var maxLengthAttribute = property.GetCustomAttributes(typeof(MaxLengthAttribute), true)[0] as MaxLengthAttribute;
 
             // Assert
-            Assert.NotNull(productCategories);
-            Assert.Equal(typeof(ICollection<ProductCategory>), productCategories.PropertyType);
+            Assert.NotNull(maxLengthAttribute);
+            Assert.Equal(50, maxLengthAttribute.Length);
+        }
+
+        [Fact]
+        public void Product_Description_ShouldBeRequired()
+        {
+            // Arrange
+            var property = typeof(Product).GetProperty("Description");
+
+            // Act
+            var requiredAttribute = property.GetCustomAttributes(typeof(RequiredAttribute), true)[0] as RequiredAttribute;
+
+            // Assert
+            Assert.NotNull(requiredAttribute);
+        }
+
+        [Fact]
+        public void Product_UnitPrice_ShouldBeRequired()
+        {
+            // Arrange
+            var property = typeof(Product).GetProperty("UnitPrice");
+
+            // Act
+            var requiredAttribute = property.GetCustomAttributes(typeof(RequiredAttribute), true)[0] as RequiredAttribute;
+
+            // Assert
+            Assert.NotNull(requiredAttribute);
+        }
+
+        [Fact]
+        public void Product_VarientType_ShouldBeRequired()
+        {
+            // Arrange
+            var property = typeof(Product).GetProperty("VarientType");
+
+            // Act
+            var requiredAttribute = property.GetCustomAttributes(typeof(RequiredAttribute), true)[0] as RequiredAttribute;
+
+            // Assert
+            Assert.NotNull(requiredAttribute);
+        }
+
+        [Fact]
+        public void Product_Orientation_ShouldBeRequired()
+        {
+            // Arrange
+            var property = typeof(Product).GetProperty("Orientation");
+
+            // Act
+            var requiredAttribute = property.GetCustomAttributes(typeof(RequiredAttribute), true)[0] as RequiredAttribute;
+
+            // Assert
+            Assert.NotNull(requiredAttribute);
         }
     }
 }

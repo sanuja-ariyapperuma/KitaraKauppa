@@ -17,45 +17,25 @@ namespace KitaraKauppa.Tests.KitaraKauppa.Core.Products
         }
 
         [Fact]
-        public void Image_ShouldHaveValidImageId()
+        public void Image_ShouldHaveValidProperties()
         {
             //Arrange
-            var image = typeof(Image);
+            var type = typeof(Image);
 
-            // Act
-            var imageId = image.GetProperty("ImageId");
+            //Act
+            var imageId = type.GetProperty("ImageAlt");
+            var extention = type.GetProperty("Extention");
+            var product = type.GetProperty("Product");
 
-            // Assert
+            //Assert
             Assert.NotNull(imageId);
-            Assert.Equal(typeof(Guid), imageId.PropertyType);
-        }
+            Assert.Equal(typeof(string), imageId.PropertyType);
 
-        [Fact]
-        public void Image_ShouldHaveValidImageUrl()
-        {
-            //Arrange
-            var image = typeof(Image);
+            Assert.NotNull(extention);
+            Assert.Equal(typeof(string), extention.PropertyType);
 
-            // Act
-            var imageUrl = image.GetProperty("ImageUrl");
-
-            // Assert
-            Assert.NotNull(imageUrl);
-            Assert.Equal(typeof(string), imageUrl.PropertyType);
-        }
-
-        [Fact]
-        public void Image_ShouldHaveValidProductId()
-        {
-            //Arrange
-            var image = typeof(Image);
-
-            // Act
-            var productId = image.GetProperty("ProductId");
-
-            // Assert
-            Assert.NotNull(productId);
-            Assert.Equal(typeof(Guid), productId.PropertyType);
+            Assert.NotNull(product);
+            Assert.Equal(typeof(ICollection<Product>), product.PropertyType);
         }
     }
 }
