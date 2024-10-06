@@ -1,6 +1,5 @@
 using KitaraKauppa.Core.Orders;
 using KitaraKauppa.Core.Users;
-using KitaraKauppa.Core.ProductReviews;
 using System;
 using System.Collections.Generic;
 using System.Linq;

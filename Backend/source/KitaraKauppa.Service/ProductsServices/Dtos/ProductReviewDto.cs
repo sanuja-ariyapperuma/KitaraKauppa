@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using KitaraKauppa.Core.ProductReviews;
 
 namespace KitaraKauppa.Service.ProductsServices.Dtos
 {
@@ -16,13 +15,13 @@ namespace KitaraKauppa.Service.ProductsServices.Dtos
 
         public string UserName { get; set; }
 
-        public ReadProductReviewDto(ProductReview pr)
-        {
-            ReviewId = pr.ReviewId;
-            Review = pr.Review;
-            Star = pr.Star;
-            UserName = pr.User.FirstName + " " + pr.User.LastName;
-        }
+        //public ReadProductReviewDto(ProductReview pr)
+        //{
+        //    ReviewId = pr.ReviewId;
+        //    Review = pr.Review;
+        //    Star = pr.Star;
+        //    UserName = pr.User.FirstName + " " + pr.User.LastName;
+        //}
 
 
     }

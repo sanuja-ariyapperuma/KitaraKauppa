@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using KitaraKauppa.Core.ProductReviews;
 using KitaraKauppa.Core.Shared;
 
 namespace KitaraKauppa.Core.Products
