@@ -3,6 +3,7 @@ using KitaraKauppa.Service.Cryptography;
 using KitaraKauppa.Service.CustomExceptions;
 using KitaraKauppa.Service.Repositories.InMemory;
 using KitaraKauppa.Service.Repositories.Users;
+using KitaraKauppa.Service.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,35 +24,29 @@ namespace KitaraKauppa.Service.AuthenticationService
             _jwtService = jwtService;
             _passwordHasher = passwordHasher;
         }
-        public async Task<AuthenticationResultDto> Authenticate(string username, string password)
+        public async Task<KKResult<AuthenticationResultDto>> Authenticate(string username, string password)
         {
             var user = await _userRepository.GetUserByUsername(username);
 
-            if (user == null)
+            if (user == null || !_passwordHasher.VerifyPassword(user.UserCredential.Password, password))
             {
-                return new AuthenticationResultDto() { IsAuthenticated = false };
+                return new KKResult<AuthenticationResultDto>().Fail("Username or password error");
             }
 
-            if (_passwordHasher.VerifyPassword(user.UserCredential.Password, password))
-            {
-                var token = _jwtService.GenerateToken(user);
-                var existingUser = await _userRepository.GetUserByUsername(username);
+            var token = _jwtService.GenerateToken(user);
+            var fullName = user.FirstName + " " + user.LastName;
+            var isAdmin = user.UserRole.UserRoleName == "Admin";
 
-                var fullName = existingUser!.FirstName + " " + existingUser.LastName;
-                var isAdmin = existingUser.UserRole.UserRoleName == "Admin";
-
-                return new AuthenticationResultDto { IsAuthenticated = true, Token = token, FullName = fullName, IsAdmin = isAdmin };
-            }
-
-            return new AuthenticationResultDto() { IsAuthenticated = false };
-
-
-
+            return new KKResult<AuthenticationResultDto>().SucceededWithValue(
+                new AuthenticationResultDto { IsAuthenticated = true, Token = token, FullName = fullName, IsAdmin = isAdmin });
         }
 
-        public void Logout(string token)
+
+        public KKResult<string> Logout(string token)
         {
             _jwtService.InvalidateToken(token);
+
+            return new KKResult<string>().SucceededWithValue("Successfully logged out");
         }
 
 

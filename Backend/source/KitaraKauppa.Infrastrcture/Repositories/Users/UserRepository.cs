@@ -6,50 +6,29 @@ using KitaraKauppa.Service.UsersService;
 using System.Linq;
 using KitaraKauppa.Service.Shared_Dtos;
 using KitaraKauppa.Service.UsersService.Dtos;
+using KitaraKauppa.Core.Products;
+using KitaraKauppa.Service.Repositories.Products;
 
 namespace KitaraKauppa.Infrastrcture.Repositories.Users
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository :   GenericRepository<User>, IUserRepository
     {
-        private readonly KitaraKauppaDbContext _context;
 
-        public UserRepository(KitaraKauppaDbContext context)
-        {
-            _context = context;
-        }
+        public UserRepository(KitaraKauppaDbContext context) : base(context) {}
 
-        public async Task<User> CreateUser(User user)
-        {
-            user.LastLogin = DateTime.UtcNow;
-            var savedUser = (await _context.Users.AddAsync(user)).Entity;
-            _context.SaveChanges();
-
-            savedUser = await _context.Users
-                .Include(u => u.UserRole)
-                .FirstOrDefaultAsync(u => u.Id == savedUser.Id);
-
-            return savedUser;
-        }
-
-        public void DeleteUser(Guid userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<User?> GetUser(Guid userId)
-        {
-            return _context.Users
+        public override Task<User?> GetByIdAsync(Guid userId) => 
+            _dbSet
                 .Include(u => u.UserRole)
                 .Include(u => u.UserContactNumbers)
                 .Include(u => u.UserAddresses)
                 .ThenInclude(a => a.City)
                 .FirstOrDefaultAsync(u => u.Id == userId);
-        }
+        
 
         public async Task<List<User>> GetUsers(UsersQueryOptions userquery)
         {
 
-            var query = _context.Users
+            var query = _dbSet
                 .Include(u => u.UserRole)
                 .AsNoTracking()
                 .AsQueryable();
@@ -84,29 +63,20 @@ namespace KitaraKauppa.Infrastrcture.Repositories.Users
             return users;
         }
 
-        public async Task UpdateUser(User user)
-        {
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync();
-        }
+        public Task<bool> CheckUserExistsByEmail(string email) =>
+            _dbSet.AsNoTracking().Where(s => s.Email == email).AnyAsync();
+        
 
-        public Task<bool> CheckUserExistsByEmail(string email)
-        {
-            return _context.Users.AsNoTracking().Where(s => s.Email == email).AnyAsync();
-        }
-
-        public Task<User?> GetUserByUsername(string username)
-        {
-            return _context.Users
+        public Task<User?> GetUserByUsername(string username) =>
+            _dbSet
                 .AsNoTracking()
                 .Include(u => u.UserRole)
                 .Include(u => u.UserCredential)
                 .FirstOrDefaultAsync(u => (u.UserCredential.UserName == username) && (u.IsUserActive ?? false));
-        }
+        
 
-        public Task<bool> CheckEmailExistsWithOtherUsers(Guid userId, string email)
-        {
-            return _context.Users.AsNoTracking().Where(s => s.Email == email && s.Id != userId).AnyAsync();
-        }
+        public Task<bool> CheckEmailExistsWithOtherUsers(Guid userId, string email) => 
+            _dbSet.AsNoTracking().Where(s => s.Email == email && s.Id != userId).AnyAsync();
+        
     }
 }

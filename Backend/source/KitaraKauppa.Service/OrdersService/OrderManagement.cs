@@ -61,7 +61,7 @@ namespace KitaraKauppa.Service.OrdersService
 
         private async Task<KKResult<bool>> ValidateOrder(CreateOrderDto newOrder) 
         {
-            var user = await _userRepository.GetUser(newOrder.UserId);
+            var user = await _userRepository.GetByIdAsync(newOrder.UserId);
             var userAddress = user.UserAddresses.FirstOrDefault(ua => ua.Id == newOrder.ShippingAddressId);
 
             if (user is null)

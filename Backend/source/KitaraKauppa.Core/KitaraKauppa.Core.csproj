@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Carts\**" />
+    <EmbeddedResource Remove="Carts\**" />
+    <None Remove="Carts\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Products\ProductOrientation.cs" />
   </ItemGroup>
 
