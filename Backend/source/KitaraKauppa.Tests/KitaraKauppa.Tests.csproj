@@ -10,6 +10,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="KitaraKauppa.Core\Carts\**" />
+    <Compile Remove="KitaraKauppa.Core\ProductReviews\**" />
+    <Compile Remove="KitaraKauppa.Service\**" />
+    <EmbeddedResource Remove="KitaraKauppa.Core\Carts\**" />
+    <EmbeddedResource Remove="KitaraKauppa.Core\ProductReviews\**" />
+    <EmbeddedResource Remove="KitaraKauppa.Service\**" />
+    <None Remove="KitaraKauppa.Core\Carts\**" />
+    <None Remove="KitaraKauppa.Core\ProductReviews\**" />
+    <None Remove="KitaraKauppa.Service\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="KitaraKauppa.Core\Products\CategoryTests.cs" />
+    <Compile Remove="KitaraKauppa.Core\Products\ProductCategoryTests.cs" />
+    <Compile Remove="KitaraKauppa.Core\Products\VariationTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="Moq" Version="4.20.70" />

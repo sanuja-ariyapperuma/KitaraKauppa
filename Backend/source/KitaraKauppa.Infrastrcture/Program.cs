@@ -16,7 +16,7 @@ using KitaraKauppa.Service.AuthenticationService;
 using Microsoft.OpenApi.Models;
 using KitaraKauppa.Service.Repositories.InMemory;
 //using KitaraKauppa.Infrastrcture.Repositories.ProductReviews;
-using KitaraKauppa.Service.ProductReviewsService;
+//using KitaraKauppa.Service.ProductReviewsService;
 using Microsoft.AspNetCore.Authorization;
 using KitaraKauppa.Service.Repositories.Products;
 using KitaraKauppa.Service.ProductsServices;
@@ -30,6 +30,8 @@ using KitaraKauppa.Infrastrcture.Repositories.Cities;
 using KitaraKauppa.Service.Repositories.Orders;
 using KitaraKauppa.Service.OrdersService;
 using KitaraKauppa.Service.Repositories.Brand;
+using KitaraKauppa.Core.Configuration;
+using KitaraKauppa.Infrastrcture.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +40,8 @@ builder.Services.AddDbContext<KitaraKauppaDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
     .UseSnakeCaseNamingConvention()
     );
+
+builder.Services.Configure<AzureBlobStorageSettings>(builder.Configuration.GetSection("AzureBlobStorage"));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -59,6 +63,8 @@ builder.Services.Configure<JwtConfiguration>(builder.Configuration.GetSection("J
 builder.Services.AddScoped<ExceptionMiddleware>();
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddScoped<IProductDefinitionManagement, ProductDefinitionManagement>();
+builder.Services.AddSingleton<IAzureBlobStorageSettings>(sp =>
+        new AzureBlobStorageSettings(sp.GetRequiredService<IConfiguration>()));
 
 // DI Product review repository
 //builder.Services.AddScoped<IProductReviewRepository, ProductReviewsRepository>();
