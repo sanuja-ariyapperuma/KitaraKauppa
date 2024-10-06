@@ -1,4 +1,5 @@
 using AutoMapper;
+using KitaraKauppa.Core.Configuration;
 using KitaraKauppa.Core.Products;
 using KitaraKauppa.Service.ProductsServices.Dtos;
 using KitaraKauppa.Service.Repositories.Products;
@@ -13,12 +14,14 @@ namespace KitaraKauppa.Service.ProductsServices
         private readonly IProductRepository _productRepository;
         private readonly IColorRepository _colorRepository;
         private readonly IMapper _mapper;
+        private readonly IAzureBlobStorageSettings _blobStorageSettings;
 
-        public ProductManagement(IProductRepository productRepository, IColorRepository colorRepository, IMapper mapper, IConfiguration configuration)
+        public ProductManagement(IProductRepository productRepository, IColorRepository colorRepository, IMapper mapper, IConfiguration configuration, IAzureBlobStorageSettings blobStorageSettings)
         {
             _productRepository = productRepository;
             _colorRepository = colorRepository;
             _mapper = mapper;
+            _blobStorageSettings = blobStorageSettings;
         }
 
         public async Task<KKResult<string>> DeleteProductById(Guid productId)
@@ -90,8 +93,8 @@ namespace KitaraKauppa.Service.ProductsServices
         public async Task<KKResult<PaginatedResults<ProductDto>>> GetAllProducts(ProductQueryOptions pqdto)
         {
             var productsFromDb = await _productRepository.GetAllProductsAsync(pqdto);
-            
-            var productsDto = _mapper.Map<IEnumerable<ProductDto>>(productsFromDb.Results);
+
+            var productsDto = ConvertToProductDto(productsFromDb.Results);
 
             var response = new PaginatedResults<ProductDto>
             {
@@ -103,6 +106,20 @@ namespace KitaraKauppa.Service.ProductsServices
             };
 
             return new KKResult<PaginatedResults<ProductDto>>().SucceededWithValue(response);
+        }
+
+        public IEnumerable<ProductDto> ConvertToProductDto(IEnumerable<Product> products)
+        {
+            var productDto =  _mapper.Map<IEnumerable<ProductDto>>(products);
+            var imageURL = $"{_blobStorageSettings.BaseUrl}/{_blobStorageSettings.Container}";
+
+            foreach (var product in products)
+            {
+                var firstImage = product.Images.FirstOrDefault();
+                productDto.FirstOrDefault(x => x.ProductId == product.Id).ImageUrl = $"{imageURL}/{firstImage.Id}.{firstImage.Extention}";
+            }
+
+            return productDto;
         }
     }
 }
