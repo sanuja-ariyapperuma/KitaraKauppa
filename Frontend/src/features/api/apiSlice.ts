@@ -20,8 +20,8 @@ import {
 } from "../types/customerTypes";
 
 const baseQuery = fetchBaseQuery({
-  //baseUrl: "https://localhost:7072/api",
-  baseUrl: "https://kitarakauppa.azurewebsites.net/api",
+  baseUrl: "https://localhost:7072/api",
+  //baseUrl: "https://kitarakauppa.azurewebsites.net/api",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
     if (token) {
@@ -50,7 +50,7 @@ export const apiSlice = createApi({
   endpoints: (builder) => ({
     //Authentications
     login: builder.mutation<
-      AuthenticationResult,
+      KKResult<AuthenticationResult>,
       { username: string; password: string }
     >({
       query: (loginCredentials: LoginRequest) => ({
