@@ -32,7 +32,7 @@ namespace KitaraKauppa.Infrastrcture.Repositories
             return true;
             
         }
-        public async Task<T?> GetByIdAsync(Guid id)=> await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
+        public async virtual Task<T?> GetByIdAsync(Guid id)=> await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
         public async Task UpdateAsync(T entity)
         {
             _dbSet.Update(entity);

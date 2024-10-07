@@ -9,7 +9,7 @@ using KitaraKauppa.Service.Shared_Dtos;
 
 namespace KitaraKauppa.Service.Repositories.Products
 {
-    public interface IProductRepository : IGenericRepository<Product>
+    public interface IProductRepository : IGenericRepository<Product> 
     {
         public Task<PaginatedResults<Product>> GetAllProductsAsync(ProductQueryOptions filtration);
         public Task<bool> IsAProductWithTheTitleAlreadyExists(Guid brandId, string title);

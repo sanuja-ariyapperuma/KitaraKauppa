@@ -21,6 +21,7 @@ namespace KitaraKauppa.Service.MappingProfile
         {
             CreateMap<CreateProductDto, Product>()
             .ForMember(dest => dest.BrandId, opt => opt.MapFrom(src => src.BrandId))
+            .ForMember(dest => dest.Images, opt => opt.MapFrom(src => ConvertToImage(src.ImageName, src.Extension)))
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
             .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
             .ForMember(dest => dest.IsDeleted, opt => opt.Ignore());
@@ -30,8 +31,8 @@ namespace KitaraKauppa.Service.MappingProfile
                 .ForMember(dest => dest.ProductTitle, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.UnitPrice))
                 .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.Brand!.Name))
-                .ForMember(dest => dest.ImageAlt, opt => opt.MapFrom(src => src.Images.FirstOrDefault().ImageAlt))
-                .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => Helper.GetImageUrl(src.Images.FirstOrDefault())));
+                .ForMember(dest => dest.ImageAlt, opt => opt.MapFrom(src => src.Images.FirstOrDefault().ImageAlt));
+                //.ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => Helper.GetImageUrl(src.Images.FirstOrDefault())));
 
             CreateMap<Product, ReadProductDto>()
             .ForMember(dest => dest.ProductColors, opt => opt.MapFrom(src => src.Colors.Select(c => c.Id)))
@@ -39,11 +40,22 @@ namespace KitaraKauppa.Service.MappingProfile
             .ForMember(dest => dest.ProductOrientation, opt => opt.MapFrom(src =>src.Orientation));
 
             CreateMap<Image, ImageReadDto>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.Url, opt => opt.MapFrom(src => Helper.GetImageUrl(src)));
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
+            //.ForMember(dest => dest.Url, opt => opt.MapFrom(src => Helper.GetImageUrl(src)));
 
             CreateMap<Brand, BrandDto>();
             CreateMap<Color, ColorDto>();
+        }
+
+        private ICollection<Image> ConvertToImage(string imageName, string imageExtension)
+        {
+            Image image = new Image
+            {
+                Id = Guid.Parse(imageName),
+                Extention = imageExtension
+            };
+
+            return new List<Image> { image };
         }
 
     }

@@ -40,8 +40,10 @@ const Login = () => {
       const { username, password } = data;
       const result = await login({ username, password }).unwrap();
 
-      if (result.isAuthenticated) {
-        const { token, fullName, isAdmin } = result;
+      const { message, value, succeeded } = result;
+
+      if (succeeded && value!.isAuthenticated) {
+        const { token, fullName, isAdmin } = value!;
 
         dispatch(
           loginSuccess({

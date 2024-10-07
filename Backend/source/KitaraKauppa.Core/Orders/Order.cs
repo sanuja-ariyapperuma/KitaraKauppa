@@ -1,4 +1,4 @@
-﻿using KitaraKauppa.Core.ProductReviews;
+﻿
 using KitaraKauppa.Core.Shared;
 using KitaraKauppa.Core.Users;
 using System;

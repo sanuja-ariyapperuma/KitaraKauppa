@@ -25,10 +25,8 @@ namespace KitaraKauppa.Presentation.Controller
         {
             var result = await _authService.Authenticate(loginRequest.Username, loginRequest.Password);
 
-            if (!result.IsAuthenticated)
-            {
+            if (!result.Succeeded)
                 return Unauthorized();
-            }
 
             return Ok(result);
         }

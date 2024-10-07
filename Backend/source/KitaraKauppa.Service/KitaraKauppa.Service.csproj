@@ -7,7 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="CartsService\**" />
+    <Compile Remove="ProductReviewsService\**" />
+    <Compile Remove="Repositories\Carts\**" />
+    <Compile Remove="Repositories\ProductReviews\**" />
+    <EmbeddedResource Remove="CartsService\**" />
+    <EmbeddedResource Remove="ProductReviewsService\**" />
+    <EmbeddedResource Remove="Repositories\Carts\**" />
+    <EmbeddedResource Remove="Repositories\ProductReviews\**" />
+    <None Remove="CartsService\**" />
+    <None Remove="ProductReviewsService\**" />
+    <None Remove="Repositories\Carts\**" />
+    <None Remove="Repositories\ProductReviews\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
   </ItemGroup>
 

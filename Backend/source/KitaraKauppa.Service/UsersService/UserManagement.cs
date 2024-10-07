@@ -49,10 +49,10 @@ namespace KitaraKauppa.Service.UsersService
         public async Task ActiveInactiveUser(Guid userId, bool status)
         {
 
-            var user = await _userRepository.GetUser(userId) ?? throw new RecordNotFoundException(typeof(User).Name);
+            var user = await _userRepository.GetByIdAsync(userId) ?? throw new RecordNotFoundException(typeof(User).Name);
 
             user.IsUserActive = status;
-            await _userRepository.UpdateUser(user);
+            await _userRepository.UpdateAsync(user);
         }
 
 
@@ -67,7 +67,7 @@ namespace KitaraKauppa.Service.UsersService
             userEntity.UserRoleId = adminUserRole.Id;
             userEntity.IsUserActive = true;
 
-            var createdUser = await _userRepository.CreateUser(userEntity);
+            var createdUser = await _userRepository.AddAsync(userEntity);
 
             //TODO: Send email to user with password
 
@@ -94,7 +94,7 @@ namespace KitaraKauppa.Service.UsersService
                     Password = _passwordHasher.HashPassword(profile.Password)
                 };
 
-                var savedUser = await _userRepository.CreateUser(userEntity);
+                var savedUser = await _userRepository.AddAsync(userEntity);
 
                 var returnProfile = _mapper.Map<CreateDetailedUserResponseDto>(profile);
                 returnProfile.UserId = savedUser.Id;
@@ -110,7 +110,7 @@ namespace KitaraKauppa.Service.UsersService
 
             public async Task<UserDetailedDto> GetUser(Guid userId)
             {
-                var user = await _userRepository.GetUser(userId);
+                var user = await _userRepository.GetByIdAsync(userId);
                 return user is null ? throw new RecordNotFoundException("User") : _mapper.Map<UserDetailedDto>(user);
             }
 
@@ -122,7 +122,7 @@ namespace KitaraKauppa.Service.UsersService
 
             public async Task UpdateUser(Guid userId, CreateUpdateUserDto user) 
             {
-                var existing = await _userRepository.GetUser(userId) ?? throw new RecordNotFoundException(typeof(User).Name);
+                var existing = await _userRepository.GetByIdAsync(userId) ?? throw new RecordNotFoundException(typeof(User).Name);
             
                 if (await _userRepository.CheckEmailExistsWithOtherUsers(userId, user.Email!)) throw new RecordAlreadyExistsException("Email");
 
@@ -130,7 +130,7 @@ namespace KitaraKauppa.Service.UsersService
                 existing.LastName = user.LastName;
                 existing.Email = user.Email;
                 
-                await _userRepository.UpdateUser(existing);
+                await _userRepository.UpdateAsync(existing);
             }
 
         private async Task<UserRole> GetAdminRole()

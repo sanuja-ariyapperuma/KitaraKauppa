@@ -12,10 +12,6 @@ type KKTextBoxProps = {
 const KKTextBox = forwardRef<HTMLInputElement, KKTextBoxProps>((props, ref) => {
   const { Id, Label, Value, Type, ...rest } = props;
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //OnChange(event.target.value);
-  };
-
   return (
     <TextField
       id={Id}

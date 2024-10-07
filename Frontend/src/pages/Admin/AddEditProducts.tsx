@@ -12,6 +12,7 @@ import {
   useAddProductMutation,
   useGetDefinitionsQuery,
   useGetProductByIdQuery,
+  useUploadProductImageMutation,
 } from "../../features/api/apiSlice";
 import { KKResult } from "../../features/types/commonTypes";
 import {
@@ -21,6 +22,7 @@ import {
   ProductForm,
 } from "../../features/types/productTypes";
 import { formatCamelCase } from "../../features/utilities/textSeperator";
+import KKFileUpload from "../../components/Shared/KKFileUpload";
 
 interface ProductType {
   productId: string;
@@ -43,6 +45,10 @@ const AddEditProducts = () => {
     null
   );
 
+  const [uploadedFileName, setUploadedFileName] = useState<string>("");
+  const [uploadedFileExtension, setUploadedFileExtension] =
+    useState<string>("");
+
   const {
     data: retrivedProduct,
     error,
@@ -58,6 +64,7 @@ const AddEditProducts = () => {
   } = useGetDefinitionsQuery();
 
   const [addProduct, { isLoading }] = useAddProductMutation();
+  const [uploadProductImage] = useUploadProductImageMutation();
 
   const {
     register,
@@ -127,6 +134,8 @@ const AddEditProducts = () => {
         productColors: colorOptions.find(
           (color) => color.id === product!.productColors[0]
         )!,
+        imageExtension: "",
+        imageName: "",
       });
     }
 
@@ -136,8 +145,6 @@ const AddEditProducts = () => {
   }, [retrivedProduct]);
 
   const onSubmit = async (data: ProductForm) => {
-    console.log("saving data", data);
-
     const saveRequest: NewProductSaveRequest = {
       title: data.title,
       description: data.description,
@@ -146,6 +153,8 @@ const AddEditProducts = () => {
       varientType: data.varientType.id,
       productOrientation: data.orientation.id,
       productColors: [data.productColors.id],
+      imageName: data.imageName,
+      extension: data.imageExtension,
     };
 
     const result = await addProduct(saveRequest).unwrap();
@@ -155,6 +164,20 @@ const AddEditProducts = () => {
       navigate("/admin/products");
     } else {
       console.log("Product save failed");
+    }
+  };
+  const handleFileUpload = async (files: FileList | null) => {
+    if (files && files.length > 0) {
+      const file = files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const results = await uploadProductImage(formData).unwrap();
+
+      if (results.succeeded) {
+        setUploadedFileName(results.value!.name);
+        setUploadedFileExtension(results.value!.extension);
+      }
     }
   };
 
@@ -227,6 +250,14 @@ const AddEditProducts = () => {
               register={register}
               setValue={setValue}
               registerName="productColors"
+            />
+          </Grid>
+          <Grid size={6}>
+            <KKFileUpload
+              OnFileUpload={handleFileUpload}
+              UploadedFileName={uploadedFileName}
+              UploadedFileExtension={uploadedFileExtension}
+              register={register}
             />
           </Grid>
           <Grid size={12} textAlign="right">

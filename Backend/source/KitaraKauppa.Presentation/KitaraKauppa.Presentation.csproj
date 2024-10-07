@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controller\CartItemsController.cs" />
+    <Compile Remove="Controller\CartsController.cs" />
+    <Compile Remove="Controller\ProductReviewController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Serilog" Version="4.0.0" />
   </ItemGroup>
