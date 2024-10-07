@@ -86,7 +86,7 @@ Password: Abc123@@@
 
 ### Demo Environment Architecture
 
-![Demo Environment Architecture](./Backend/screenshots/demo%20architecture.png)
+![Demo Environment Architecture](./Backend/screenshots/demoarchitecture1.png)
 
 ### Production Application Architecture
 
