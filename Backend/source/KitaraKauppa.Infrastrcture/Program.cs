@@ -65,6 +65,8 @@ builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddScoped<IProductDefinitionManagement, ProductDefinitionManagement>();
 builder.Services.AddSingleton<IAzureBlobStorageSettings>(sp =>
         new AzureBlobStorageSettings(sp.GetRequiredService<IConfiguration>()));
+builder.Services.AddScoped<IImageManagement, ImageManagement>();
+builder.Services.AddScoped<IImageStorageRepository, ImageStorageRepository>();
 
 // DI Product review repository
 //builder.Services.AddScoped<IProductReviewRepository, ProductReviewsRepository>();

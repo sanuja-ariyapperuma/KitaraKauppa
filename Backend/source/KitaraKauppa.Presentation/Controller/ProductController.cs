@@ -8,6 +8,7 @@ using KitaraKauppa.Service.ProductsServices.Dtos;
 using KitaraKauppa.Service.Repositories.Products;
 using KitaraKauppa.Service.Shared;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KitaraKauppa.Presentation.Controller
@@ -18,11 +19,13 @@ namespace KitaraKauppa.Presentation.Controller
     {
         private readonly IProductManagement _productManagement;
         private readonly IProductDefinitionManagement _productDefinitionManagement;
+        private readonly IImageManagement _imageManagement;
 
-        public ProductController(IProductManagement productManagement, IProductDefinitionManagement productDefinitionManagement)
+        public ProductController(IProductManagement productManagement, IProductDefinitionManagement productDefinitionManagement, IImageManagement imageManagement)
         {
             _productManagement = productManagement;
             _productDefinitionManagement = productDefinitionManagement;
+            _imageManagement = imageManagement;
         }
 
         //[Authorize(Roles = "Admin")]
@@ -100,7 +103,19 @@ namespace KitaraKauppa.Presentation.Controller
             return Ok(productDefinition);
         }
 
+        [HttpPost("UploadImage")]
+        public async Task<IActionResult> UploadImage([FromForm] IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded");
+
+
+            var result = await _imageManagement.UploadImage(file);
+            return Ok(new KKResult<UploadedImage>().SucceededWithValue(result));
+        }
+
     }
+
 
 
 

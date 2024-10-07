@@ -57,6 +57,8 @@ export interface ProductForm {
   varientType: KKAutoCompleteOptionType;
   orientation: KKAutoCompleteOptionType;
   productColors: KKAutoCompleteOptionType;
+  imageName: string;
+  imageExtension: string;
 }
 
 export interface NewProductSaveRequest {
@@ -67,8 +69,15 @@ export interface NewProductSaveRequest {
   varientType: string;
   productOrientation: string;
   productColors: string[];
+  imageName: string;
+  extension: string;
 }
 
 export interface ExistingProduct extends NewProductSaveRequest {
   id: string;
+}
+
+export interface UploadedProductImage {
+  name: string;
+  extension: string;
 }

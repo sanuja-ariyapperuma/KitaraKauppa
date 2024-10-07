@@ -21,6 +21,7 @@ namespace KitaraKauppa.Service.MappingProfile
         {
             CreateMap<CreateProductDto, Product>()
             .ForMember(dest => dest.BrandId, opt => opt.MapFrom(src => src.BrandId))
+            .ForMember(dest => dest.Images, opt => opt.MapFrom(src => ConvertToImage(src.ImageName, src.Extension)))
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
             .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
             .ForMember(dest => dest.IsDeleted, opt => opt.Ignore());
@@ -44,6 +45,17 @@ namespace KitaraKauppa.Service.MappingProfile
 
             CreateMap<Brand, BrandDto>();
             CreateMap<Color, ColorDto>();
+        }
+
+        private ICollection<Image> ConvertToImage(string imageName, string imageExtension)
+        {
+            Image image = new Image
+            {
+                Id = Guid.Parse(imageName),
+                Extention = imageExtension
+            };
+
+            return new List<Image> { image };
         }
 
     }

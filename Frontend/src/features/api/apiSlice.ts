@@ -11,13 +11,11 @@ import {
   ProductDefinitionDto,
   ProductDto,
   ProductQueryOptions,
+  UploadedProductImage,
 } from "../types/productTypes";
 import { RootState } from "../store/store";
 import { logoutSuccess } from "../auth/authSlice";
-import {
-  CustomerRegistrationForm,
-  CustomerRegistrationRequest,
-} from "../types/customerTypes";
+import { CustomerRegistrationRequest } from "../types/customerTypes";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://localhost:7072/api",
@@ -99,6 +97,16 @@ export const apiSlice = createApi({
         body: product,
       }),
     }),
+    uploadProductImage: builder.mutation<
+      KKResult<UploadedProductImage>,
+      FormData
+    >({
+      query: (imageFormData) => ({
+        url: "/v1/Products/UploadImage",
+        method: "POST",
+        body: imageFormData,
+      }),
+    }),
 
     //Definition data
     getDefinitions: builder.query<KKResult<ProductDefinitionDto>, void>({
@@ -128,4 +136,5 @@ export const {
   useAddProductMutation,
   useGetProductByIdQuery,
   useAddCustomerMutation,
+  useUploadProductImageMutation,
 } = apiSlice;

@@ -18,6 +18,8 @@ namespace KitaraKauppa.Service.ProductsServices.Dtos
         public VarientType VarientType { get; set; }
         public Orientation ProductOrientation { get; set; }
         public Guid[] ProductColors { get; set; } = [];
+        public string ImageName { get; set; } = String.Empty;
+        public string Extension { get; set; } = String.Empty;
 
         public virtual KKResult<string> Validate() 
         {
